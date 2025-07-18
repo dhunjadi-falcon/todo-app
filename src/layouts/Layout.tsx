@@ -14,8 +14,8 @@ const Layout = () => {
           <li>
             <NavLink to="/">Home</NavLink>
           </li>
-          <li onClick={() => navigate(isLoggedIn ? "/todo" : "/login")}>
-            ToDo
+          <li>
+            <NavLink to={isLoggedIn ? "/todo" : "/login"}>ToDO</NavLink>
           </li>
           <button
             onClick={() => {
@@ -28,6 +28,12 @@ const Layout = () => {
           </button>
         </ul>
       </nav>
+      {!isLoggedIn && (
+        <h2 style={{ color: "red", textAlign: "center" }}>
+          Please login for access to ToDo page
+        </h2>
+      )}
+
       <Outlet />
     </div>
   );
