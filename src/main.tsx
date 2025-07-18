@@ -5,18 +5,24 @@ import Layout from "./layouts/Layout";
 import HomePage from "./pages/HomePage";
 import ToDo from "./pages/ToDo";
 import Login from "./pages/Login";
+import { TodoProvider } from "./context/TodoContext";
+import { LoginContextProvider } from "./context/LoginContext";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/" element={<Layout />}>
-          <Route index element={<HomePage />} />
-          <Route path="/todo" element={<ToDo />} />
-          <Route path="/login" element={<Login />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <LoginContextProvider>
+      <TodoProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/" element={<Layout />}>
+              <Route index element={<HomePage />} />
+              <Route path="/todo" element={<ToDo />} />
+              <Route path="/login" element={<Login />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </TodoProvider>
+    </LoginContextProvider>
   </StrictMode>
 );

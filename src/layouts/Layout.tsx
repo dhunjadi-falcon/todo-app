@@ -1,5 +1,6 @@
 import { NavLink, Outlet, useNavigate } from "react-router";
 import { useLoginContext } from "../context/LoginContext";
+import "../styles/Layout.scss";
 
 const Layout = () => {
   const { isLoggedIn, setIsLoggedIn } = useLoginContext();
@@ -9,7 +10,7 @@ const Layout = () => {
       <h1>
         <NavLink to="/"> ToDo App</NavLink>
       </h1>
-      <nav>
+      <nav className="navbar">
         <ul>
           <li>
             <NavLink to="/">Home</NavLink>
@@ -17,15 +18,17 @@ const Layout = () => {
           <li>
             <NavLink to={isLoggedIn ? "/todo" : "/login"}>ToDO</NavLink>
           </li>
-          <button
-            onClick={() => {
-              setIsLoggedIn(false);
-              localStorage.removeItem("loggedUserName");
-              navigate("/");
-            }}
-          >
-            <NavLink to="/">Logout</NavLink>
-          </button>
+          <div className="nav-right">
+            <button
+              onClick={() => {
+                setIsLoggedIn(false);
+                localStorage.removeItem("loggedUserName");
+                navigate("/");
+              }}
+            >
+              <NavLink to="/">Logout</NavLink>
+            </button>{" "}
+          </div>
         </ul>
       </nav>
       {!isLoggedIn && (

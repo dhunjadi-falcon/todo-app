@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
 import { Users } from "../data/Users";
 import { useLoginContext } from "../context/LoginContext";
+import "../styles/Login.scss";
 
 export type LogInForm = {
   email: string;
@@ -53,8 +54,8 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit(onSubmit)}>
+    <div className="center-container ">
+      <form className="form" onSubmit={handleSubmit(onSubmit)}>
         <input type="email" placeholder="Insert email" {...register("email")} />
         <input
           type="password"

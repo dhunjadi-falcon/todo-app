@@ -1,0 +1,78 @@
+/* Layout.scss */
+
+h1 {
+  text-align: left;
+  margin-top: 1rem;
+
+  a {
+    text-decoration: none;
+    color: #007bff;
+    font-size: 2.2rem;
+    font-weight: bold;
+  }
+}
+
+.navbar {
+  background: linear-gradient(90deg, #4e54c8, #8f94fb);
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  border-radius: 0 0 10px 10px;
+
+  ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+  }
+
+  li {
+    margin-right: 2rem;
+
+    a {
+      text-decoration: none;
+      color: #fff;
+      font-weight: 500;
+      font-size: 1.1rem;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: background-color 0.3s, color 0.3s;
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        color: #fff;
+      }
+
+      &.active {
+        background-color: #fff;
+        color: #4e54c8;
+        font-weight: bold;
+      }
+    }
+  }
+
+  .nav-right {
+    margin-left: auto;
+
+    button {
+      background-color: #ff4d4f;
+      color: #fff;
+      border: none;
+      padding: 0.5rem 1.2rem;
+      font-size: 0.95rem;
+      font-weight: 500;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: #e60023;
+      }
+
+      a {
+        color: white;
+        text-decoration: none;
+      }
+    }
+  }
+}
