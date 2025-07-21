@@ -9,6 +9,9 @@ const Todo = () => {
   const { addTask } = useTodoContext();
   const { isLoggedIn } = useLoginContext();
   const navigate = useNavigate();
+  const { tasks, toggleDone, deleteTask, editTask } = useTodoContext();
+  const [editId, setEditId] = useState<string | null>(null);
+  const [editText, setEditText] = useState("");
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -32,6 +35,52 @@ const Todo = () => {
         placeholder="Write your task"
       />
       <button onClick={handleAdd}>Add Task</button>
+      <hr />
+      <div className="home-container">
+        <ul>
+          {tasks.map((task) => (
+            <li key={task.id}>
+              <input
+                type="checkbox"
+                checked={task.done}
+                onChange={() => toggleDone(task.id)}
+              />
+              {editId === task.id ? (
+                <>
+                  <input
+                    value={editText}
+                    onChange={(e) => setEditText(e.target.value)}
+                  />
+                  <button
+                    onClick={() => {
+                      editTask(task.id, editText);
+                      setEditId(null);
+                    }}
+                  >
+                    Save
+                  </button>
+                </>
+              ) : (
+                <span
+                  onClick={() => toggleDone(task.id)}
+                  className={task.done ? "done" : ""}
+                >
+                  {task.text}
+                </span>
+              )}
+              <button
+                onClick={() => {
+                  setEditId(task.id);
+                  setEditText(task.text);
+                }}
+              >
+                ✏️
+              </button>
+              <button onClick={() => deleteTask(task.id)}>🗑️</button>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };
