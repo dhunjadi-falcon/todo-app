@@ -5,6 +5,7 @@ import z from "zod";
 import { Users } from "../data/Users";
 import { useLoginContext } from "../context/LoginContext";
 import "../styles/Login.scss";
+import { useState } from "react";
 
 export type LogInForm = {
   email: string;
@@ -19,10 +20,11 @@ const loginPageValidationSchema = z.object({
 const Login = () => {
   const navigate = useNavigate();
   const { setIsLoggedIn } = useLoginContext();
+  const [authError, setAuthError] = useState("");
 
   const {
     register,
-    watch,
+    // watch,
     handleSubmit,
     formState: { errors },
   } = useForm<LogInForm>({
@@ -30,8 +32,7 @@ const Login = () => {
     mode: "onTouched",
   });
 
-  const { email, password } = watch();
-  console.log(email, password);
+  //const { email, password } = watch();
 
   const onSubmit = async ({ email, password }: LogInForm) => {
     const matchedUser = Users.find(
@@ -41,28 +42,35 @@ const Login = () => {
     );
 
     if (matchedUser) {
-      console.log("Login successful");
       setIsLoggedIn(true);
       localStorage.setItem("loggedUserName", matchedUser.name);
-      navigate("/todo"); //if login success, let me see ToDo page, redirect to ToDo page
+      navigate("/"); //if login success, let me see ToDo page, redirect to ToDo page for new task creation
     } else {
-      alert("Invalid credentials");
+      setAuthError("Email or password is incorrect");
       setIsLoggedIn(false);
       localStorage.removeItem("loggedUserName");
-      navigate("/login");
     }
   };
 
   return (
     <div className="center-container ">
       <form className="form" onSubmit={handleSubmit(onSubmit)}>
-        <input type="email" placeholder="Insert email" {...register("email")} />
+        <input
+          type="email"
+          placeholder="Insert email"
+          className={errors.email || authError ? "input-error" : ""}
+          {...register("email")}
+        />
+        {errors.email && (
+          <p className="error-message">{errors.email?.message}</p>
+        )}
         <input
           type="password"
           placeholder="Insert password"
+          className={errors.password || authError ? "input-error" : ""}
           {...register("password")}
         />
-        {errors.email?.message}
+        {authError && <p className="error-message">{authError}</p>}
         <button type="submit">Login</button>
       </form>
     </div>

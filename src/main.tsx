@@ -17,7 +17,7 @@ createRoot(document.getElementById("root")!).render(
             <Route path="/login" element={<Login />} />
             <Route path="/" element={<Layout />}>
               <Route index element={<HomePage />} />
-              <Route path="/todo" element={<ToDo />} />
+              <Route path="/new" element={<ToDo />} />
               <Route path="/login" element={<Login />} />
             </Route>
           </Routes>

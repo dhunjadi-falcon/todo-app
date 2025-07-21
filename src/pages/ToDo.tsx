@@ -23,6 +23,7 @@ const Todo = () => {
     if (text.trim() !== "") {
       addTask(text);
       setText("");
+      navigate("/");
     }
   };
 
@@ -34,17 +35,26 @@ const Todo = () => {
         onChange={(e) => setText(e.target.value)}
         placeholder="Write your task"
       />
-      <button onClick={handleAdd}>Add Task</button>
+      <button onClick={handleAdd} disabled={text.trim() === ""}>
+        Add Task
+      </button>
       <hr />
       <div className="home-container">
         <ul>
           {tasks.map((task) => (
             <li key={task.id}>
-              <input
-                type="checkbox"
-                checked={task.done}
-                onChange={() => toggleDone(task.id)}
-              />
+              {editId !== task.id && (
+                <>
+                  {
+                    <input
+                      type="checkbox"
+                      checked={task.done}
+                      onChange={() => toggleDone(task.id)}
+                    />
+                  }
+                </>
+              )}
+
               {editId === task.id ? (
                 <>
                   <input
@@ -68,15 +78,35 @@ const Todo = () => {
                   {task.text}
                 </span>
               )}
-              <button
-                onClick={() => {
-                  setEditId(task.id);
-                  setEditText(task.text);
-                }}
-              >
-                ✏️
-              </button>
-              <button onClick={() => deleteTask(task.id)}>🗑️</button>
+              {editId !== task.id && (
+                <>
+                  {
+                    <button
+                      onClick={() => {
+                        setEditId(task.id);
+                        setEditText(task.text);
+                      }}
+                    >
+                      Edit
+                    </button>
+                  }
+                </>
+              )}
+              {editId === task.id && (
+                <>
+                  {
+                    <button
+                      onClick={() => {
+                        setEditId(null);
+                      }}
+                    >
+                      Cancel
+                    </button>
+                  }
+                </>
+              )}
+
+              <button onClick={() => deleteTask(task.id)}>Delete</button>
             </li>
           ))}
         </ul>

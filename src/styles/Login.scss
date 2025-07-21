@@ -53,4 +53,15 @@
     font-size: 0.875rem;
     margin-top: -1rem;
   }
+
+  .input-error {
+    border: 2px solid red;
+    outline: none;
+  }
+
+  .error-message {
+    color: red;
+    margin-top: 0.2rem;
+    font-size: 0.9rem;
+  }
 }

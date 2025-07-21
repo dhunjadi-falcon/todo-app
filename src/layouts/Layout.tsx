@@ -1,39 +1,63 @@
 import { NavLink, Outlet, useNavigate } from "react-router";
 import { useLoginContext } from "../context/LoginContext";
 import "../styles/Layout.scss";
+import "../styles/Home.scss";
 
 const Layout = () => {
   const { isLoggedIn, setIsLoggedIn } = useLoginContext();
   const navigate = useNavigate();
   return (
     <div>
-      <h1>
-        <NavLink to="/"> ToDo App</NavLink>
-      </h1>
       <nav className="navbar">
         <ul>
-          <li>
-            <NavLink to="/">Home</NavLink>
-          </li>
-          <li>
-            <NavLink to={isLoggedIn ? "/todo" : "/login"}>ToDO</NavLink>
-          </li>
-          <div className="nav-right">
+          <h1>
+            <NavLink to="/"> ToDo App</NavLink>
+          </h1>
+          {!isLoggedIn && (
             <button
+              className="button-login"
               onClick={() => {
-                setIsLoggedIn(false);
-                localStorage.removeItem("loggedUserName");
-                navigate("/");
+                navigate("/login");
               }}
             >
-              <NavLink to="/">Logout</NavLink>
-            </button>{" "}
-          </div>
+              Login
+            </button>
+          )}
+          {isLoggedIn && (
+            <button
+              className="home-container
+              "
+              onClick={() => navigate("/new")}
+            >
+              Add New Task
+            </button>
+          )}
+          {isLoggedIn && (
+            <>
+              <li>
+                <NavLink to="/">Home</NavLink>
+              </li>
+              <li>
+                <NavLink to="/new">ToDO</NavLink>
+              </li>
+              <div className="nav-right">
+                <button
+                  onClick={() => {
+                    setIsLoggedIn(false);
+                    localStorage.removeItem("loggedUserName");
+                    navigate("/");
+                  }}
+                >
+                  <NavLink to="/">Logout</NavLink>
+                </button>
+              </div>
+            </>
+          )}
         </ul>
       </nav>
       {!isLoggedIn && (
         <h2 style={{ color: "red", textAlign: "center" }}>
-          Please login for access to ToDo page
+          Please login for ToDo list preview
         </h2>
       )}
 
