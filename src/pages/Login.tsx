@@ -19,7 +19,7 @@ const loginPageValidationSchema = z.object({
 
 const Login = () => {
   const navigate = useNavigate();
-  const { setIsLoggedIn } = useLoginContext();
+  const { setIsLoggedIn, setUser } = useLoginContext();
   const [authError, setAuthError] = useState("");
 
   const {
@@ -43,11 +43,17 @@ const Login = () => {
 
     if (matchedUser) {
       setIsLoggedIn(true);
+      setUser({
+        id: matchedUser.id,
+        name: matchedUser.name,
+        email: matchedUser.email,
+      });
       localStorage.setItem("loggedUserName", matchedUser.name);
       navigate("/"); //if login success, let me see ToDo page, redirect to ToDo page for new task creation
     } else {
       setAuthError("Email or password is incorrect");
       setIsLoggedIn(false);
+      setUser(null);
       localStorage.removeItem("loggedUserName");
     }
   };

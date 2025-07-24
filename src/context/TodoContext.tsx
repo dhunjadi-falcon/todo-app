@@ -1,15 +1,17 @@
 // src/context/TodoContext.tsx
 import React, { createContext, useContext, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 export type Task = {
   id: string;
   text: string;
   done: boolean;
+  userId: string;
 };
 
 type TodoContextType = {
   tasks: Task[];
-  addTask: (text: string) => void;
+  addTask: (text: string, userId: string) => void;
   toggleDone: (id: string) => void;
   deleteTask: (id: string) => void;
   editTask: (id: string, newText: string) => void;
@@ -20,11 +22,12 @@ const TodoContext = createContext<TodoContextType | null>(null);
 export const TodoProvider = ({ children }: { children: React.ReactNode }) => {
   const [tasks, setTasks] = useState<Task[]>([]);
 
-  const addTask = (text: string) => {
+  const addTask = (text: string, userId: string) => {
     const newTask: Task = {
-      id: Date.now().toString(),
+      id: uuidv4(),
       text,
       done: false,
+      userId,
     };
     setTasks((prev) => [...prev, newTask]);
   };

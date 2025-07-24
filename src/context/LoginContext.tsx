@@ -7,14 +7,24 @@ import React, {
   type SetStateAction,
 } from "react";
 
+type User = {
+  id: string;
+  name: string;
+  email: string;
+};
+
 type LoginContext = {
   isLoggedIn: boolean;
   setIsLoggedIn: Dispatch<SetStateAction<boolean>>;
+  user: User | null;
+  setUser: Dispatch<SetStateAction<User | null>>;
 };
 
 const LoginContext = createContext<LoginContext>({
   isLoggedIn: false,
   setIsLoggedIn: () => {},
+  user: null,
+  setUser: () => {},
 });
 
 export function LoginContextProvider({
@@ -23,17 +33,20 @@ export function LoginContextProvider({
   children?: React.ReactNode;
 }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
 
-  const productPageContextObj = useMemo(
+  const contextValue = useMemo(
     () => ({
       isLoggedIn,
       setIsLoggedIn,
+      user,
+      setUser,
     }),
-    [isLoggedIn]
+    [isLoggedIn, user]
   );
 
   return (
-    <LoginContext.Provider value={productPageContextObj}>
+    <LoginContext.Provider value={contextValue}>
       {children}
     </LoginContext.Provider>
   );

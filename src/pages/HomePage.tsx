@@ -9,7 +9,10 @@ const Home = () => {
   const { tasks, toggleDone, deleteTask, editTask } = useTodoContext();
   const [editId, setEditId] = useState<string | null>(null);
   const [editText, setEditText] = useState("");
-  const { isLoggedIn } = useLoginContext();
+  const { isLoggedIn, user } = useLoginContext();
+  const userTasks = tasks.filter((task) => task.userId === user?.id);
+
+  if (!isLoggedIn || !user) return null;
 
   return (
     <>
@@ -19,7 +22,7 @@ const Home = () => {
           <h2>Your Tasks</h2>
 
           <ul>
-            {tasks.map((task) => (
+            {userTasks.map((task) => (
               <li key={task.id}>
                 {editId !== task.id && (
                   <>
