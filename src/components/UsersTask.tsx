@@ -1,5 +1,4 @@
 import { type Dispatch, type SetStateAction } from "react";
-
 import EditTaskForm from "../components/EditTaskForm";
 
 type Task = {
@@ -16,7 +15,6 @@ type UserTasksProps = {
   editTask: (id: string, newText: string) => void;
   editId: string | null;
   setEditId: Dispatch<SetStateAction<string | null>>;
-  setEditText: Dispatch<SetStateAction<string>>;
 };
 
 const UserTasks = ({
@@ -26,7 +24,6 @@ const UserTasks = ({
   editTask,
   editId,
   setEditId,
-  setEditText,
 }: UserTasksProps) => {
   return (
     <ul>
@@ -58,7 +55,6 @@ const UserTasks = ({
               <button
                 onClick={() => {
                   setEditId(task.id);
-                  setEditText(task.text);
                 }}
               >
                 Edit
