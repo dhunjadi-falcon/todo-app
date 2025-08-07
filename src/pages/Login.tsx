@@ -48,7 +48,9 @@ const Login = () => {
         name: matchedUser.name,
         email: matchedUser.email,
       });
+
       localStorage.setItem("loggedUserName", matchedUser.name);
+
       navigate("/"); //if login success, let me see ToDo page, redirect to ToDo page for new task creation
     } else {
       setAuthError("Email or password is incorrect");
@@ -59,27 +61,29 @@ const Login = () => {
   };
 
   return (
-    <div className="center-container ">
-      <form className="form" onSubmit={handleSubmit(onSubmit)}>
-        <input
-          type="email"
-          placeholder="Insert email"
-          className={errors.email || authError ? "input-error" : ""}
-          {...register("email")}
-        />
-        {errors.email && (
-          <p className="error-message">{errors.email?.message}</p>
-        )}
-        <input
-          type="password"
-          placeholder="Insert password"
-          className={errors.password || authError ? "input-error" : ""}
-          {...register("password")}
-        />
-        {authError && <p className="error-message">{authError}</p>}
-        <button type="submit">Login</button>
-      </form>
-    </div>
+    <>
+      <div className="center-container ">
+        <form className="form" onSubmit={handleSubmit(onSubmit)}>
+          <input
+            type="email"
+            placeholder="Insert email"
+            className={errors.email || authError ? "input-error" : ""}
+            {...register("email")}
+          />
+          {errors.email && (
+            <p className="error-message">{errors.email?.message}</p>
+          )}
+          <input
+            type="password"
+            placeholder="Insert password"
+            className={errors.password || authError ? "input-error" : ""}
+            {...register("password")}
+          />
+          {authError && <p className="error-message">{authError}</p>}
+          <button type="submit">Login</button>
+        </form>
+      </div>
+    </>
   );
 };
 

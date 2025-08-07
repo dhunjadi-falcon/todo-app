@@ -16,7 +16,7 @@ const Home = () => {
 
   return (
     <>
-      {" "}
+      {isLoggedIn && user && <h2>Welcome {user.name}</h2>}{" "}
       {isLoggedIn && (
         <div className="home-container">
           <h2>Your Tasks</h2>
