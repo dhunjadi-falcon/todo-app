@@ -4,13 +4,13 @@ import { useState } from "react";
 import "../styles/Home.scss";
 import "../styles/ToDo.scss";
 import { useLoginContext } from "../context/LoginContext";
+import EditTaskForm from "../components/EditTaskForm";
 
 const Home = () => {
   const { tasks, toggleDone, deleteTask, editTask } = useTodoContext();
   const [editId, setEditId] = useState<string | null>(null);
-  const [editText, setEditText] = useState("");
+
   const { isLoggedIn, user } = useLoginContext();
-  const userTasks = tasks.filter((task) => task.userId === user?.id);
 
   if (!isLoggedIn || !user) return null;
 
@@ -22,72 +22,41 @@ const Home = () => {
           <h2>Your Tasks</h2>
 
           <ul>
-            {userTasks.map((task) => (
+            {tasks.map((task) => (
               <li key={task.id}>
-                {editId !== task.id && (
-                  <>
-                    {
-                      <input
-                        type="checkbox"
-                        checked={task.done}
-                        onChange={() => toggleDone(task.id)}
-                      />
-                    }
-                  </>
-                )}
-
                 {editId === task.id ? (
+                  <EditTaskForm
+                    taskId={task.id}
+                    initialText={task.text}
+                    onSave={(id: string, newText: string) => {
+                      editTask(id, newText);
+                      setEditId(null);
+                    }}
+                    onCancel={() => setEditId(null)}
+                  />
+                ) : (
                   <>
                     <input
-                      value={editText}
-                      onChange={(e) => setEditText(e.target.value)}
+                      type="checkbox"
+                      checked={task.done}
+                      onChange={() => toggleDone(task.id)}
                     />
+                    <span
+                      onClick={() => toggleDone(task.id)}
+                      className={task.done ? "done" : ""}
+                    >
+                      {task.text}
+                    </span>
                     <button
                       onClick={() => {
-                        editTask(task.id, editText);
-                        setEditId(null);
+                        setEditId(task.id);
                       }}
                     >
-                      Save
+                      Edit
                     </button>
-                  </>
-                ) : (
-                  <span
-                    onClick={() => toggleDone(task.id)}
-                    className={task.done ? "done" : ""}
-                  >
-                    {task.text}
-                  </span>
-                )}
-                {editId !== task.id && (
-                  <>
-                    {
-                      <button
-                        onClick={() => {
-                          setEditId(task.id);
-                          setEditText(task.text);
-                        }}
-                      >
-                        Edit
-                      </button>
-                    }
+                    <button onClick={() => deleteTask(task.id)}>Delete</button>
                   </>
                 )}
-                {editId === task.id && (
-                  <>
-                    {
-                      <button
-                        onClick={() => {
-                          setEditId(null);
-                        }}
-                      >
-                        Cancel
-                      </button>
-                    }
-                  </>
-                )}
-
-                <button onClick={() => deleteTask(task.id)}>Delete</button>
               </li>
             ))}
           </ul>
