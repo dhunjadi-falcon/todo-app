@@ -23,7 +23,15 @@ const EditTaskForm = ({
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ display: "inline" }}>
+    <form
+      onSubmit={handleSubmit}
+      style={{
+        display: "inline",
+        alignItems: "center",
+        gap: "8px",
+        marginTop: "10px",
+      }}
+    >
       <input
         type="text"
         value={text}

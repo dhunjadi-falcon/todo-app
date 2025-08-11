@@ -5,6 +5,7 @@ import "../styles/Home.scss";
 import "../styles/ToDo.scss";
 import { useLoginContext } from "../context/LoginContext";
 import EditTaskForm from "../components/EditTaskForm";
+import { ListRoot, ListItem } from "@chakra-ui/react";
 
 const Home = () => {
   const { tasks, toggleDone, deleteTask, editTask } = useTodoContext();
@@ -13,6 +14,7 @@ const Home = () => {
   const { isLoggedIn, user } = useLoginContext();
 
   if (!isLoggedIn || !user) return null;
+  console.log(ListRoot, ListItem);
 
   return (
     <>
@@ -21,9 +23,9 @@ const Home = () => {
         <div className="home-container">
           <h2>Your Tasks</h2>
 
-          <ul>
+          <ListRoot style={{ paddingLeft: "1rem", listStyleType: "disc" }}>
             {tasks.map((task) => (
-              <li key={task.id}>
+              <ListItem key={task.id}>
                 {editId === task.id ? (
                   <EditTaskForm
                     taskId={task.id}
@@ -57,9 +59,9 @@ const Home = () => {
                     <button onClick={() => deleteTask(task.id)}>Delete</button>
                   </>
                 )}
-              </li>
+              </ListItem>
             ))}
-          </ul>
+          </ListRoot>
         </div>
       )}
     </>
